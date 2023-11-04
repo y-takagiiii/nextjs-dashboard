@@ -1,6 +1,7 @@
 'use client';
 
 import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
+import { updateInvoice } from '@/app/lib/actions';
 import {
   CheckIcon,
   ClockIcon,
@@ -17,8 +18,14 @@ export default function EditInvoiceForm({
   invoice: InvoiceForm;
   customers: CustomerField[];
 }) {
+  // bind(): 既存の関数のパラメータを変更して新しい関数を作成するメソッド
+  // 新しい関数は元の関数と同じ動作をするがthis値と固定された引数が異なる
+  // bindメソッドの第一引数で元の関数のthis値を渡すことができる、今回はnull(元の関数でthisキーワードが使われていない場合に安全で効果的)
+  // updateInvoice関数の第一引数をinvoice.idに固定する
+  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
+
   return (
-    <form>
+    <form action={updateInvoiceWithId}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Invoice ID */}
         <input type="hidden" name="id" value={invoice.id} />
